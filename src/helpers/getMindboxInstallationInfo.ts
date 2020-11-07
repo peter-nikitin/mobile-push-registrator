@@ -1,10 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-
-type MbInstallationInfo = {
-  installationId: string;
-  hubName: string;
-  connectionString: string;
-};
+import { MbInstallationInfo } from "../declare/types.d";
 
 const getMindboxInstallationInfo = async (
   endpoint: string
