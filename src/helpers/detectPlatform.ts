@@ -14,7 +14,7 @@ const detectPlatform = (token: string): NSData => {
       NSsystem: "gcm",
     };
   } else {
-    throw new Error("Unsupported token length");
+    throw "Unsupported token length";
   }
 };
 
