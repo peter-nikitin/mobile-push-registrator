@@ -7,15 +7,14 @@ const sendCustomerToMindbox = async (
   { NSsystem }: NSData
 ) => {
   return await axios.post(
-    `https://api.mindbox.ru/v3/operations/async?endpointId=${process.env[NSsystem]}&operation=TestRegistraciiMobPrilozheniya`,
+    `https://api.mindbox.ru/v3/operations/async?endpointId=${process.env[NSsystem]}&operation=${process.env.operation}`,
     {
       customer: {
         customFields: {
-          sizeobuv: "1",
+          forWho: "1",
         },
         subscriptions: [
           {
-            brand: "brand-two",
             pointOfContact: "Mobilepush",
           },
         ],
