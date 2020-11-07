@@ -2,7 +2,7 @@ import axios from "axios";
 
 import sendCustomerToMindbox from "./sendCustomerToMindbox";
 
-import { NSData } from "./types.d";
+import { NSData } from "../declare/types.d";
 
 jest.mock("axios");
 const mockedAxios = axios as jest.Mocked<typeof axios>;
