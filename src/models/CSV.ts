@@ -5,15 +5,19 @@ import path from "path";
 
 type HandleToken<T> = (token: T) => void;
 
-type Sucess = {
+export type Sucess = {
   tocken: string;
   installationId: string;
   platform: "apns" | "gcm";
 };
 
-type Error = {
+export type Error = {
   tocken: string;
   error: string;
+};
+
+export type CsvLine = {
+  tocken: string;
 };
 
 class CSV {

@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 
-import CSV from "./CSV";
+import CSV, { CsvLine } from "./CSV";
 
 const csv = new CSV(
   "../../__mocks__/mockTocken.csv",
@@ -11,10 +11,6 @@ const csv = new CSV(
 describe("CSV", () => {
   it("shoult read file", async () => {
     let tockenFromFile: string[] = [];
-
-    type CsvLine = {
-      tocken: string;
-    };
 
     await csv.read<CsvLine>(({ tocken }) => tockenFromFile.push(tocken));
 
@@ -28,10 +24,6 @@ describe("CSV", () => {
 
   it("shoult write line to csv", async () => {
     let tockenFromFile: string[] = [];
-
-    type CsvLine = {
-      tocken: string;
-    };
 
     await csv.write({
       tocken: "123",
