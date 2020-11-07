@@ -12,7 +12,7 @@ const sendDataToAzure = (
   sasToken: string,
   { NStoken, NSsystem }: NSData
 ) => {
-  axios.put(
+  return axios.put(
     uri,
     {
       installationId: installationId,
