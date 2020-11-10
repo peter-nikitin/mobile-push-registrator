@@ -2,13 +2,10 @@ import registerTocken from "./controllers/registerTocken";
 import dotenv from "dotenv";
 
 import CSV from "./models/CSV";
-import { log } from "console";
+
 dotenv.config();
 
-const csv = new CSV(
-  "../../__mocks__/mockTocken.csv",
-  "../../__mocks__/mockResult.csv"
-);
+const csv = new CSV("../../tockens.csv", "../../result.csv", 10234);
 
 type CsvLine = {
   tocken: string;
