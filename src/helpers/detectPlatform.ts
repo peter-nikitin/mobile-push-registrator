@@ -8,7 +8,7 @@ const detectPlatform = (token: string): NSData => {
       NStoken: token,
       NSsystem: "apns",
     };
-  } else if (tokenLength === 163) {
+  } else if (tokenLength > 150) {
     return {
       NStoken: token,
       NSsystem: "gcm",
