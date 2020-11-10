@@ -15,7 +15,7 @@ const sendCustomerToMindbox = async (
     {
       customer: {
         customFields: {
-          favouriteBook: "test-mobpush",
+          Syncstatus: "true",
         },
         subscriptions: [
           {
