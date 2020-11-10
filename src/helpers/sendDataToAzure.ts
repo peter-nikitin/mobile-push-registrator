@@ -6,6 +6,10 @@ import {
   NSData,
 } from "../declare/types.d";
 
+import axiosRetry from "axios-retry";
+
+axiosRetry(axios, { retries: 3 });
+
 const sendDataToAzure = (
   { installationId }: MbInstallationInfo,
   { uri }: destructedAnswer,

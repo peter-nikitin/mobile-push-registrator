@@ -1,6 +1,10 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { MbInstallationInfo } from "../declare/types.d";
 
+import axiosRetry from "axios-retry";
+
+axiosRetry(axios, { retries: 3 });
+
 const getMindboxInstallationInfo = async (
   platfom: string
 ): Promise<AxiosResponse<MbInstallationInfo>> => {

@@ -2,6 +2,10 @@ import axios from "axios";
 
 import { MbInstallationInfo, NSData } from "../declare/types.d";
 
+import axiosRetry from "axios-retry";
+
+axiosRetry(axios, { retries: 3 });
+
 const sendCustomerToMindbox = async (
   { installationId }: MbInstallationInfo,
   { NSsystem }: NSData
@@ -11,7 +15,7 @@ const sendCustomerToMindbox = async (
     {
       customer: {
         customFields: {
-          forWho: "1",
+          favouriteBook: "test-mobpush",
         },
         subscriptions: [
           {
