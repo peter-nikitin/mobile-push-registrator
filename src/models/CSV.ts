@@ -1,10 +1,10 @@
-import csv from "csv-parser";
+import * as csv from "fast-csv";
 import fs from "fs";
 import { createObjectCsvWriter } from "csv-writer";
 import path from "path";
-import readline from "readline";
+import cliProgress from "cli-progress";
 
-type HandleToken<T> = (token: T) => void;
+type HandleToken<T> = (token: T) => Promise<{}>;
 
 export type Sucess = {
   tocken: string;
@@ -27,49 +27,73 @@ class CSV {
   input: NodeJS.ReadableStream;
   output: any;
   currentRow: number;
+  progress: cliProgress.SingleBar = new cliProgress.SingleBar(
+    {},
+    cliProgress.Presets.shades_classic
+  );
+  totalLength: number;
 
-  constructor(inputFilePath: string, outputFilePath: string) {
-    this.input = fs.createReadStream(path.resolve(__dirname, inputFilePath));
+  constructor(
+    inputFilePath: string,
+    outputFilePath: string,
+    totalLength: number
+  ) {
+    this.input = fs.createReadStream(path.resolve(__dirname, inputFilePath), {
+      highWaterMark: 64,
+    });
     this.currentRow = 0;
     this.output = createObjectCsvWriter({
       path: path.resolve(__dirname, outputFilePath),
       header: [
         { id: "tocken", title: "TOKEN" },
-        { id: "installationId", title: "INSTALLATOIN_ID" },
+        { id: "installationId", title: "INSTALLATION_ID" },
         { id: "platform", title: "PLATFORM" },
         { id: "error", title: "ERROR" },
         { id: "date", title: "DATE_TIME" },
       ],
     });
+    this.totalLength = totalLength;
   }
 
   wait(seconds: number, maxRow: number) {
-    if (this.currentRow === maxRow) {
-      console.log(this.currentRow);
-
-      this.input.pause();
-      setTimeout(() => {
-        // this.currentRow = 0;
-        this.input.resume();
-      }, seconds * 1000);
-    }
+    return new Promise((resolve, reject) => {
+      if (this.currentRow === maxRow) {
+        this.input.pause();
+        setTimeout(() => {
+          this.currentRow = 0;
+          // this.input.resume();
+          resolve();
+        }, seconds * 1000);
+      } else {
+        resolve();
+      }
+    });
   }
 
   read<T>(handleToken: HandleToken<T>) {
     return new Promise((resolve, reject) => {
+      this.progress.start(this.totalLength, 0);
       this.input
-        .pipe(csv())
-        .on("data", async (data) => {
+        .pipe(csv.parse({ headers: true }))
+        .on("data", (data) => {
           this.input.pause();
 
           this.currentRow += 1;
-          // this.wait(5, 100);
-          await handleToken(data);
-          this.input.resume();
+          // console.log(this.currentRow);
 
+          // console.log(data);
+          this.wait(2, 150)
+            // .then(() => handleToken(data))
+            .then(() => {
+              this.input.resume();
+              this.progress.increment();
+            });
+
+          handleToken(data);
           return true;
         })
         .on("end", () => {
+          this.progress.stop();
           resolve();
         })
         .on("error", (err) => reject(err));
