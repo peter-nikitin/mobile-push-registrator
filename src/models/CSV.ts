@@ -82,7 +82,7 @@ class CSV {
           // console.log(this.currentRow);
 
           // console.log(data);
-          this.wait(2, 150)
+          this.wait(2, 250)
             // .then(() => handleToken(data))
             .then(() => {
               this.input.resume();
