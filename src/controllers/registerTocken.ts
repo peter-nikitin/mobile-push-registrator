@@ -34,7 +34,7 @@ const registerTocken = async (tocken: string): Promise<Sucess> => {
       installationId: installationInfo.installationId,
       tocken: tockenInfo.NStoken,
       platform: tockenInfo.NSsystem,
-      date: new Date(process.env.NODE_ENV === "test" ? "11.10.2020" : ""),
+      date: new Date(),
     };
   } catch (error) {
     throw {
@@ -42,7 +42,7 @@ const registerTocken = async (tocken: string): Promise<Sucess> => {
       tocken: tocken,
       platform: tockenInfo?.NSsystem,
       error: error,
-      date: new Date(process.env.NODE_ENV === "test" ? "11.10.2020" : ""),
+      date: new Date(),
     };
   }
 };
