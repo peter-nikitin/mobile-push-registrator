@@ -29,6 +29,7 @@ describe("CSV", () => {
       tocken: "123",
       installationId: "4321",
       platform: "apns",
+      date: new Date("10.11.2020"),
     });
 
     fs.readFile(
@@ -36,7 +37,7 @@ describe("CSV", () => {
       "utf8",
       (error, data) => {
         expect(data).toEqual(
-          "TOKEN,INSTALLATOIN_ID,PLATFORM,ERROR\n123,4321,apns,\n"
+          "TOKEN,INSTALLATOIN_ID,PLATFORM,ERROR,DATE_TIME\n123,4321,apns,,Sun Oct 11 2020 00:00:00 GMT+0300 (Moscow Standard Time)\n"
         );
       }
     );
